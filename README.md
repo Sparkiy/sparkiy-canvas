@@ -1,6 +1,6 @@
 # sparkiy-canvas
 
-Provides Direct2D and DirectWrite support for Sparkiy clients
+Provides drawing support for Sparkiy clients
 
 [![master build status](https://ci.appveyor.com/api/projects/status/i2x9sa0ov2d3v500/branch/master?svg=true&pendingText=pending...&passingText=OK&failingText=failed)](https://ci.appveyor.com/project/AleksandarDev/sharpdx-toolkit-game-direct2d/branch/master)
 [![GratiPay Tips](https://img.shields.io/gratipay/sparkiy.svg?style=flat-square)](https://gratipay.com/sparkiy/)
