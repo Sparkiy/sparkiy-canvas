@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SparkiyEngine.Graphics.Canvas", "SparkiyEngine.Graphics.Canvas\SparkiyEngine.Graphics.Canvas.shproj", "{6F4F1A42-1F64-4F9A-B434-0DE1C598FD45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkiyEngine.Graphics.Canvas.Windows81", "SparkiyEngine.Graphics.Canvas.Windows81\SparkiyEngine.Graphics.Canvas.Windows81.csproj", "{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkiyEngine.Graphics.Canvas.WindowsPhone81", "SparkiyEngine.Graphics.Canvas.WindowsPhone81\SparkiyEngine.Graphics.Canvas.WindowsPhone81.csproj", "{17BB1EA0-54F3-4949-A89D-2FBC7997F795}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SparkiyEngine.Graphics.Canvas\SparkiyEngine.Graphics.Canvas.projitems*{2b49c1fa-78c3-4ef9-b798-705ab94a2faa}*SharedItemsImports = 4
+		SparkiyEngine.Graphics.Canvas\SparkiyEngine.Graphics.Canvas.projitems*{17bb1ea0-54f3-4949-a89d-2fbc7997f795}*SharedItemsImports = 4
+		SparkiyEngine.Graphics.Canvas\SparkiyEngine.Graphics.Canvas.projitems*{6f4f1a42-1f64-4f9a-b434-0de1c598fd45}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|ARM.Build.0 = Debug|ARM
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|x64.ActiveCfg = Debug|x64
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|x64.Build.0 = Debug|x64
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|x86.ActiveCfg = Debug|x86
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Debug|x86.Build.0 = Debug|x86
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|ARM.ActiveCfg = Release|ARM
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|ARM.Build.0 = Release|ARM
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|x64.ActiveCfg = Release|x64
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|x64.Build.0 = Release|x64
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|x86.ActiveCfg = Release|x86
+		{2B49C1FA-78C3-4EF9-B798-705AB94A2FAA}.Release|x86.Build.0 = Release|x86
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Debug|ARM.ActiveCfg = Debug|ARM
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Debug|ARM.Build.0 = Debug|ARM
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Debug|x86.ActiveCfg = Debug|x86
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Debug|x86.Build.0 = Debug|x86
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Release|ARM.ActiveCfg = Release|ARM
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Release|ARM.Build.0 = Release|ARM
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Release|x64.ActiveCfg = Release|Any CPU
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Release|x86.ActiveCfg = Release|x86
+		{17BB1EA0-54F3-4949-A89D-2FBC7997F795}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
