@@ -109,6 +109,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\Sparkiy.MonoGame.Framework.Windows81.1.10\lib\win81\MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\packages\SharpDX.2.6.3\build\..\Bin\DirectX11_2-Signed-winrt\SharpDX.dll</HintPath>
     </Reference>

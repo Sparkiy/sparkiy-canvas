@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -9,5 +9,13 @@
     <Import_RootNamespace>SparkiyEngine.Graphics.Canvas</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontGeneratorUnavailableException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontStyles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontWeights.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fonts\IFontGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shapes\IColorPrimitive.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SparkiyCanvas.cs" />
   </ItemGroup>
 </Project>
