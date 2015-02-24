@@ -9,6 +9,7 @@
     <Import_RootNamespace>SparkiyEngine.Graphics.Canvas</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Debug\TimeDebugger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontDescription.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontGeneratorUnavailableException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontManager.cs" />

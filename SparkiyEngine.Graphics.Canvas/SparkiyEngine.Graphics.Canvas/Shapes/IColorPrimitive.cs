@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SparkiyEngine.Graphics.Canvas.Shapes
 {
-	internal interface IColorComplex
+	internal interface IShape
 	{
 		IColorPrimitive[] Primitives { get; }
 	}
@@ -18,7 +18,49 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 		PrimitiveType Type { get; }
 	}
 
-	internal struct Quad : IColorComplex
+	internal struct Rectangle : IShape
+	{
+		private readonly IColorPrimitive[] primitives;
+
+		public IColorPrimitive[] Primitives
+		{
+			get { return this.primitives; }
+		}
+
+
+		public Rectangle(Vector3 upperLeft, float size, Color color)
+			: this(upperLeft, size, color, color, color, color)
+		{
+		}
+
+		public Rectangle(Vector3 upperLeft, float size, Color colorA, Color colorB, Color colorC, Color colorD)
+			: this(upperLeft, new Vector3(upperLeft.X + size, upperLeft.Y + size, upperLeft.Z), colorA, colorB, colorC, colorD)
+		{
+		}
+
+		public Rectangle(Vector3 upperLeft, Vector3 lowerRight, Color color)
+			: this(upperLeft, lowerRight, color, color, color, color)
+		{
+		}
+
+		public Rectangle(Vector3 upperLeft, Vector3 lowerRight, Color colorA, Color colorB, Color colorC, Color colorD)
+		{
+			IShape rectangleQuad = new Quad(upperLeft,
+											  new Vector3(lowerRight.X, upperLeft.Y,
+														  Math.Abs(lowerRight.Z - 0) < 0.01 && Math.Abs(upperLeft.Z - 0) < 0.01
+															? 0
+															: lowerRight.Z + (lowerRight.Z - upperLeft.Z) / 2),
+											  lowerRight,
+											  new Vector3(upperLeft.X, lowerRight.Y,
+														  Math.Abs(lowerRight.Z - 0) < 0.01 && Math.Abs(upperLeft.Z - 0) < 0.01
+															? 0
+															: lowerRight.Z + (lowerRight.Z - upperLeft.Z) / 2),
+											  colorA, colorB, colorC, colorD);
+			this.primitives = rectangleQuad.Primitives;
+		}
+	}
+
+	internal struct Quad : IShape
 	{
 		private readonly IColorPrimitive[] primitives;
 
@@ -40,6 +82,17 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Quad"/> struct.
+		/// </summary>
+		/// <param name="pointA">The point a.</param>
+		/// <param name="pointB">The point b.</param>
+		/// <param name="pointC">The point c.</param>
+		/// <param name="pointD">The point d.</param>
+		/// <param name="colorA">The color a.</param>
+		/// <param name="colorB">The color b.</param>
+		/// <param name="colorC">The color c.</param>
+		/// <param name="colorD">The color d.</param>
 		public Quad(Vector3 pointA, Vector3 pointB, Vector3 pointC, Vector3 pointD, Color colorA, Color colorB, Color colorC,
 			Color colorD)
 			: this()
@@ -56,11 +109,15 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 	/// Basic line primitive.
 	/// Line primitive doesn't have thickness (1px thick) and may only be colored using two colors.
 	/// </summary>
-	internal struct Line : IColorPrimitive
+	internal struct Line : IColorPrimitive, IShape
 	{
-		private const Int32 PrimitivesCount = 1;
 		private const Int32 VerticesCount = 2;
 		private readonly VertexPositionColor[] vertices;
+
+		public IColorPrimitive[] Primitives
+		{
+			get { return new[] {(IColorPrimitive) this}; }
+		}
 
 		public VertexPositionColor[] Vertices
 		{
@@ -105,11 +162,16 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 	/// Basic triangle primitive.
 	/// Triangle primitive doesn't have thickness (1px thick) and my only be colored using three colors.
 	/// </summary>
-	internal struct Triangle : IColorPrimitive
+	internal struct Triangle : IColorPrimitive, IShape
 	{
 		private const Int32 PrimitivesCount = 1;
 		private const Int32 VerticesCount = 3;
 		private readonly VertexPositionColor[] vertices;
+
+		public IColorPrimitive[] Primitives
+		{
+			get { return new[] { (IColorPrimitive)this }; }
+		}
 
 		public VertexPositionColor[] Vertices
 		{

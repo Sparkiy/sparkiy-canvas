@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Windows.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SparkiyEngine.Graphics.Canvas.Fonts;
 using SparkiyEngine.Graphics.Canvas.Shapes;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = SparkiyEngine.Graphics.Canvas.Shapes.Rectangle;
 
 namespace SparkiyEngine.Graphics.Canvas
 {
@@ -14,6 +17,7 @@ namespace SparkiyEngine.Graphics.Canvas
 
 	    private BasicEffect basicEffect;
 
+		private const int MaxPrimitives = 21845;
 		private readonly List<IColorPrimitive> primitivesList = new List<IColorPrimitive>();
 	    private bool isBeginCalled;
 
@@ -48,9 +52,9 @@ namespace SparkiyEngine.Graphics.Canvas
 
 	    private void InitializeTransform()
 	    {
-		    WorldMatrix = Matrix.Identity;
-		    ViewMatrix = Matrix.CreateLookAt(new Vector3(0f, 0f, 1f), Vector3.Zero, Vector3.Up);
-		    ProjectionMatrix = Matrix.CreateOrthographicOffCenter(
+		    this.WorldMatrix = Matrix.Identity;
+		    this.ViewMatrix = Matrix.CreateLookAt(new Vector3(0f, 0f, 1f), Vector3.Zero, Vector3.Up);
+		    this.ProjectionMatrix = Matrix.CreateOrthographicOffCenter(
 				0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0, 0f, 1f);
 	    }
 
@@ -74,41 +78,47 @@ namespace SparkiyEngine.Graphics.Canvas
 			this.primitivesList.Clear();
 		}
 
-		public void Begin()
-		{
-			this.CheckEndCall();
-			this.isBeginCalled = true;
-
-			this.ViewMatrix = Matrix.Identity;
-		}
-
-	    private void CheckBeginCall()
+	    public override void Draw(GameTime gameTime)
 	    {
-		    if (!this.isBeginCalled)
-		    {
-			    throw new InvalidOperationException("Begin call is needed before this call!");
-		    }
-	    }
-
-	    public void End()
-		{
-			this.CheckBeginCall();
-
-			// Iscrtava sve osnovne oblike
+		    this.ViewMatrix = Matrix.Identity;
+			this.DrawSquare(50, 50, 100);
+			this.DrawLine(150,150,250,250);
 			this.FlushPrimitives();
 
-			this.isBeginCalled = false;
-		}
+		    base.Draw(gameTime);
+	    }
 
-		private void CheckEndCall()
-		{
-			if (this.isBeginCalled)
-			{
-				throw new InvalidOperationException("End call is needed before this call!");
-			}
-		}
+	    internal void Draw<T>(T complex) where T : IShape
+	    {
+			// Check if this can be added to list or flush is needed.
+			if (primitivesList.Count >= MaxPrimitives)
+				this.FlushPrimitives();
 
-	    public Matrix ViewMatrix
+			// If drawable contains primitives, add them to list.
+			if (complex != null && complex.Primitives != null)
+				primitivesList.AddRange(complex.Primitives);
+	    }
+
+		#region Shapes 
+
+	    public void DrawLine(float x1, float y1, float x2, float y2)
+	    {
+		    this.Draw(new Line(new Vector3(x1, y1, 0), new Vector3(x2, y2, 0), Color.Red));
+	    }
+
+	    public void DrawRect(float x, float y, float width, float height)
+	    {
+			this.Draw(new Rectangle(new Vector3(x, y, 0), new Vector3(x + width, y + height, 0), Color.Red));
+	    }
+
+		public void DrawSquare(float x, float y, float size)
+	    {
+			this.Draw(new Rectangle(new Vector3(x, y, 0), size, Color.Red));
+	    }
+
+		#endregion
+
+		public Matrix ViewMatrix
 		{
 			get { return this.basicEffect.View; }
 			set { this.basicEffect.View = value; }
