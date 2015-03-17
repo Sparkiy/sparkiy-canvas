@@ -9,14 +9,18 @@
     <Import_RootNamespace>SparkiyEngine.Graphics.Canvas</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Debug\TimeDebugger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontDescription.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontGeneratorUnavailableException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontStyles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\FontWeights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fonts\IFontGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PushPopManagement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Shapes\IColorPrimitive.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SparkiyCanvas.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Style2D.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Debug\" />
   </ItemGroup>
 </Project>
