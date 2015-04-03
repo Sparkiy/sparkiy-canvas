@@ -115,8 +115,18 @@ namespace SparkiyEngine.Graphics.Canvas
 
 			// Call draw primitives here
 			this.FillDisable();
+
+		    var x = Mouse.GetState().X;
+			var y = Mouse.GetState().Y;
+
 			this.SetStrokeThickness(10);
-			this.DrawRect(100, 100, 200, 200);
+			this.SetStrokeColor(1, 0, 0);
+			this.DrawLine(300, 300, x, y);
+
+			this.SetStrokeThickness(1);
+			this.SetStrokeColor(0, 0, 0);
+			this.DrawLine(300, 300, x, y);
+			//this.DrawRect(0, 0, 50, 50);
 
 			this.FlushPrimitives();
 

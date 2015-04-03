@@ -253,10 +253,10 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 			Vector3 lineNormal = Vector3.Normalize(lineCross);
 			Vector3 lineNormalHalf = lineNormal * thickness * 0.5f;
 
-			Vector3 upperLeft = new Vector3(startPoint.X + lineNormalHalf.X, startPoint.Y + lineNormalHalf.Y, 0);
-			Vector3 lowerLeft = new Vector3(startPoint.X - lineNormalHalf.X, startPoint.Y - lineNormalHalf.Y, 0);
-			Vector3 upperRight = new Vector3(endPoint.X + lineNormalHalf.X, endPoint.Y + lineNormalHalf.Y, 0);
-			Vector3 lowerRight = new Vector3(endPoint.X - lineNormalHalf.X, endPoint.Y - lineNormalHalf.Y, 0);
+			Vector3 upperLeft = new Vector3(startPoint.X + lineNormalHalf.X + lineNormalHalf.Y, startPoint.Y + lineNormalHalf.Y - lineNormalHalf.X, 0);
+			Vector3 lowerLeft = new Vector3(startPoint.X - lineNormalHalf.X + lineNormalHalf.Y, startPoint.Y - lineNormalHalf.Y - lineNormalHalf.X, 0);
+			Vector3 upperRight = new Vector3(endPoint.X + lineNormalHalf.X - lineNormalHalf.Y, endPoint.Y + lineNormalHalf.Y + lineNormalHalf.X, 0);
+			Vector3 lowerRight = new Vector3(endPoint.X - lineNormalHalf.X - lineNormalHalf.Y, endPoint.Y - lineNormalHalf.Y + lineNormalHalf.X, 0);
 
 			this.lineQuad = new Quad(upperLeft, upperRight, lowerRight, lowerLeft, color);
 		}
