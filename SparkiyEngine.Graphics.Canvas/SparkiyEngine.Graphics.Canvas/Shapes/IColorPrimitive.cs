@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+// ReSharper disable once CheckNamespace
 namespace SparkiyEngine.Graphics.Canvas.Shapes
 {
 	internal interface IShape
 	{
 		IColorPrimitive[] Primitives { get; }
+	}
+
+	internal interface ITexturedPrimitive
+	{
+		VertexPositionColorTexture[] Vertices { get; }
+
+		PrimitiveType Type { get; }
+
+		Texture2D Texture { get; }
 	}
 
 	internal interface IColorPrimitive
@@ -18,31 +27,196 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 		PrimitiveType Type { get; }
 	}
 
+	internal struct TexturedQuad : ITexturedPrimitive
+	{
+		private readonly VertexPositionColorTexture[] vertices;
+		private readonly Texture2D texture;
+
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TexturedQuad"/> struct.
+		/// </summary>
+		/// <param name="position">The position.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		/// <param name="texture">The texture.</param>
+		public TexturedQuad(Vector3 position, float width, float height, Texture2D texture)
+			: this(position, width, height, texture, Color.White)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TexturedQuad"/> struct.
+		/// </summary>
+		/// <param name="position">The position.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		/// <param name="texture">The texture.</param>
+		/// <param name="color">The color.</param>
+		public TexturedQuad(Vector3 position, float width, float height, Texture2D texture, Color color)
+			: this(
+				new Vector3(position.X, position.Y, position.Z),
+				new Vector3(position.X + width, position.Y, position.Z),
+				new Vector3(position.X, position.Y + height, position.Z),
+				new Vector3(position.X + width, position.Y + height, position.Z),
+				texture, color)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TexturedQuad"/> struct.
+		/// </summary>
+		/// <param name="ulPosition">The upper-left position.</param>
+		/// <param name="urPosition">The upper-right position.</param>
+		/// <param name="llPosition">The lower-left position.</param>
+		/// <param name="lrPosition">The lower-right position.</param>
+		/// <param name="texture">The texture.</param>
+		public TexturedQuad(
+			Vector3 ulPosition, Vector3 urPosition, Vector3 llPosition, Vector3 lrPosition,
+			Texture2D texture)
+			: this(ulPosition, urPosition, llPosition, lrPosition, texture, Color.White, Color.White, Color.White, Color.White)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TexturedQuad"/> struct.
+		/// </summary>
+		/// <param name="ulPosition">The upper-left position.</param>
+		/// <param name="urPosition">The upper-right position.</param>
+		/// <param name="llPosition">The lower-left position.</param>
+		/// <param name="lrPosition">The lower-right position.</param>
+		/// <param name="texture">The texture.</param>
+		/// <param name="color">The color.</param>
+		public TexturedQuad(
+			Vector3 ulPosition, Vector3 urPosition, Vector3 llPosition, Vector3 lrPosition,
+			Texture2D texture,
+			Color color) : this(ulPosition, urPosition, llPosition, lrPosition, texture, color, color, color, color)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TexturedQuad"/> struct.
+		/// </summary>
+		/// <param name="ulPosition">The upper-left position.</param>
+		/// <param name="urPosition">The upper-right position.</param>
+		/// <param name="llPosition">The lower-left position.</param>
+		/// <param name="lrPosition">The lower-right position.</param>
+		/// <param name="texture">The texture.</param>
+		/// <param name="ulColor">Color of the upper-left.</param>
+		/// <param name="urColor">Color of the upper-right.</param>
+		/// <param name="llColor">Color of the lower-left.</param>
+		/// <param name="lrColor">Color of the lower-right.</param>
+		public TexturedQuad(
+			Vector3 ulPosition, Vector3 urPosition, Vector3 llPosition, Vector3 lrPosition, 
+			Texture2D texture, 
+			Color ulColor, Color urColor, Color llColor, Color lrColor)
+		{
+			this.texture = texture;
+			this.vertices = new[]
+			{
+				new VertexPositionColorTexture(ulPosition, ulColor, Vector2.Zero),
+				new VertexPositionColorTexture(urPosition, urColor, Vector2.UnitX),
+				new VertexPositionColorTexture(llPosition, llColor, Vector2.UnitY),
+				new VertexPositionColorTexture(lrPosition, lrColor, Vector2.One)
+			};
+		}
+
+
+		/// <summary>
+		/// Gets the vertices.
+		/// </summary>
+		/// <value>
+		/// The vertices.
+		/// </value>
+		public VertexPositionColorTexture[] Vertices
+		{
+			get { return this.vertices; }
+		}
+
+		/// <summary>
+		/// Gets the type.
+		/// </summary>
+		/// <value>
+		/// The type.
+		/// </value>
+		public PrimitiveType Type
+		{
+			get { return PrimitiveType.TriangleList; }
+		}
+
+		/// <summary>
+		/// Gets the texture.
+		/// </summary>
+		/// <value>
+		/// The texture.
+		/// </value>
+		public Texture2D Texture
+		{
+			get { return this.texture; }
+		}
+	}
+
 	internal struct Rectangle : IShape
 	{
 		private readonly IColorPrimitive[] primitives;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return this.primitives; }
 		}
 
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Rectangle"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="size">The size.</param>
+		/// <param name="color">The color.</param>
 		public Rectangle(Vector3 upperLeft, float size, Color color)
 			: this(upperLeft, size, color, color, color, color)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Rectangle"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="size">The size.</param>
+		/// <param name="colorA">The color a.</param>
+		/// <param name="colorB">The color b.</param>
+		/// <param name="colorC">The color c.</param>
+		/// <param name="colorD">The color d.</param>
 		public Rectangle(Vector3 upperLeft, float size, Color colorA, Color colorB, Color colorC, Color colorD)
 			: this(upperLeft, new Vector3(upperLeft.X + size, upperLeft.Y + size, upperLeft.Z), colorA, colorB, colorC, colorD)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Rectangle"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="lowerRight">The lower right.</param>
+		/// <param name="color">The color.</param>
 		public Rectangle(Vector3 upperLeft, Vector3 lowerRight, Color color)
 			: this(upperLeft, lowerRight, color, color, color, color)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Rectangle"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="lowerRight">The lower right.</param>
+		/// <param name="colorA">The color a.</param>
+		/// <param name="colorB">The color b.</param>
+		/// <param name="colorC">The color c.</param>
+		/// <param name="colorD">The color d.</param>
 		public Rectangle(Vector3 upperLeft, Vector3 lowerRight, Color colorA, Color colorB, Color colorC, Color colorD)
 		{
 			IShape rectangleQuad = new Quad(upperLeft,
@@ -64,27 +238,67 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 	{
 		private readonly IColorPrimitive[] primitives;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return this.primitives; }
 		}
 
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RectangleOutline"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="size">The size.</param>
+		/// <param name="thickness">The thickness.</param>
+		/// <param name="color">The color.</param>
 		public RectangleOutline(Vector3 upperLeft, float size, float thickness, Color color)
 			: this(upperLeft, size, thickness, color, color, color, color)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RectangleOutline"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="size">The size.</param>
+		/// <param name="thickness">The thickness.</param>
+		/// <param name="colorA">The color a.</param>
+		/// <param name="colorB">The color b.</param>
+		/// <param name="colorC">The color c.</param>
+		/// <param name="colorD">The color d.</param>
 		public RectangleOutline(Vector3 upperLeft, float size, float thickness, Color colorA, Color colorB, Color colorC, Color colorD)
 			: this(upperLeft, new Vector3(upperLeft.X + size, upperLeft.Y + size, upperLeft.Z), thickness, colorA, colorB, colorC, colorD)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RectangleOutline"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="lowerRight">The lower right.</param>
+		/// <param name="thickness">The thickness.</param>
+		/// <param name="color">The color.</param>
 		public RectangleOutline(Vector3 upperLeft, Vector3 lowerRight, float thickness, Color color)
 			: this(upperLeft, lowerRight, thickness, color, color, color, color)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RectangleOutline"/> struct.
+		/// </summary>
+		/// <param name="upperLeft">The upper left.</param>
+		/// <param name="lowerRight">The lower right.</param>
+		/// <param name="thickness">The thickness.</param>
+		/// <param name="colorA">The color a.</param>
+		/// <param name="colorB">The color b.</param>
+		/// <param name="colorC">The color c.</param>
+		/// <param name="colorD">The color d.</param>
 		public RectangleOutline(Vector3 upperLeft, Vector3 lowerRight, float thickness, Color colorA, Color colorB, Color colorC, Color colorD)
 		{
 			Vector3 lowerLeft = new Vector3(upperLeft.X, lowerRight.Y,
@@ -118,19 +332,43 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 
 	internal struct EllipseOutline : IShape
 	{
-		private IColorPrimitive[] primitives;
+		private readonly IColorPrimitive[] primitives;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return this.primitives; }
 		}
 
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EllipseOutline"/> struct.
+		/// </summary>
+		/// <param name="position">The position.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		/// <param name="thickness">The thickness.</param>
+		/// <param name="color">The color.</param>
 		public EllipseOutline(Vector3 position, float width, float height, float thickness, Color color)
 			: this(position, width, height, thickness, color, EllipseHelper.CalculateNumberOfSides(width, height), 0)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EllipseOutline"/> struct.
+		/// </summary>
+		/// <param name="position">The position.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		/// <param name="thickness">The thickness.</param>
+		/// <param name="color">The color.</param>
+		/// <param name="sides">The number of sides.</param>
+		/// <param name="rotation">The rotation.</param>
 		public EllipseOutline(Vector3 position, float width, float height, float thickness, Color color, int sides, float rotation)
 		{
 			Vector3[] points = EllipseHelper.GetEllipsePoints(width, height, rotation, sides);
@@ -155,8 +393,14 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 
 	internal struct Ellipse : IShape
 	{
-		private IColorPrimitive[] primitives;
+		private readonly IColorPrimitive[] primitives;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return this.primitives; }
@@ -187,10 +431,12 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 		public Ellipse(Vector3 position, float width, float height, Color color, int sides, float rotation)
 		{
 			this.primitives = new IColorPrimitive[sides];
-			Vector3[] points = EllipseHelper.GetEllipsePoints(width, height, rotation, sides);
+			var points = EllipseHelper.GetEllipsePoints(width, height, rotation, sides);
 
 			for (int index = 0; index < sides - 1; index++)
+			{
 				this.primitives[index] = new Triangle(position, position + points[index], position + points[index + 1], color);
+			}
 			this.primitives[sides - 1] = new Triangle(position, position + points[sides - 1], position + points[0], color);
 		}
 	}
@@ -233,6 +479,12 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 	{
 		private readonly Quad lineQuad;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return this.lineQuad.Primitives; }
@@ -266,6 +518,12 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 	{
 		private readonly IColorPrimitive[] primitives;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return this.primitives; }
@@ -299,7 +557,7 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 			Color colorD)
 			: this()
 		{
-			this.primitives = new IColorPrimitive[2]
+			this.primitives = new IColorPrimitive[]
 			{
 				new Triangle(pointA, pointB, pointD, colorA, colorB, colorD),
 				new Triangle(pointB, pointC, pointD, colorB, colorC, colorD)
@@ -313,19 +571,36 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 	/// </summary>
 	internal struct Line : IColorPrimitive, IShape
 	{
-		private const Int32 VerticesCount = 2;
 		private readonly VertexPositionColor[] vertices;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return new[] {(IColorPrimitive) this}; }
 		}
 
+		/// <summary>
+		/// Gets the vertices.
+		/// </summary>
+		/// <value>
+		/// The vertices.
+		/// </value>
 		public VertexPositionColor[] Vertices
 		{
 			get { return this.vertices; }
 		}
 
+		/// <summary>
+		/// Gets the type.
+		/// </summary>
+		/// <value>
+		/// The type.
+		/// </value>
 		public PrimitiveType Type
 		{
 			get { return PrimitiveType.LineList; }
@@ -352,7 +627,7 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 		/// <param name="colorB">The color of point B.</param>
 		public Line(Vector3 pointA, Vector3 pointB, Color colorA, Color colorB)
 		{
-			this.vertices = new VertexPositionColor[VerticesCount]
+			this.vertices = new[]
 			{
 				new VertexPositionColor(pointA, colorA),
 				new VertexPositionColor(pointB, colorB)
@@ -366,20 +641,36 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 	/// </summary>
 	internal struct Triangle : IColorPrimitive, IShape
 	{
-		private const Int32 PrimitivesCount = 1;
-		private const Int32 VerticesCount = 3;
 		private readonly VertexPositionColor[] vertices;
 
+		/// <summary>
+		/// Gets the primitives.
+		/// </summary>
+		/// <value>
+		/// The primitives.
+		/// </value>
 		public IColorPrimitive[] Primitives
 		{
 			get { return new[] { (IColorPrimitive)this }; }
 		}
 
+		/// <summary>
+		/// Gets the vertices.
+		/// </summary>
+		/// <value>
+		/// The vertices.
+		/// </value>
 		public VertexPositionColor[] Vertices
 		{
 			get { return this.vertices; }
 		}
 
+		/// <summary>
+		/// Gets the type.
+		/// </summary>
+		/// <value>
+		/// The type.
+		/// </value>
 		public PrimitiveType Type
 		{
 			get { return PrimitiveType.TriangleList; }
@@ -409,7 +700,7 @@ namespace SparkiyEngine.Graphics.Canvas.Shapes
 		/// <param name="colorC">The color of point C.</param>
 		public Triangle(Vector3 pointA, Vector3 pointB, Vector3 pointC, Color colorA, Color colorB, Color colorC)
 		{
-			this.vertices = new VertexPositionColor[VerticesCount]
+			this.vertices = new[]
 			{
 				new VertexPositionColor(pointA, colorA),
 				new VertexPositionColor(pointB, colorB),
